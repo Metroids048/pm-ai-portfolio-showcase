@@ -1,0 +1,462 @@
+/* ============================================================
+   BASE — design tokens, reset, typography primitives
+   Dark-first. Structure is felt through spacing + surface,
+   not through borders on everything.
+   ============================================================ */
+
+:root {
+  /* --- Surface ladder --- */
+  --bg-primary: #080a0f;
+  --bg-secondary: #0b0e14;
+  --surface-1: #0d1118;
+  --surface-2: #11151d;
+  --surface-hover: #151a23;
+
+  /* --- Text ladder ---
+     Lifted from the reference greys so every step clears WCAG AA
+     (4.53:1 floor on --surface-2) while keeping the quiet hierarchy. */
+  --text-primary: #f5f7fa;
+  --text-secondary: #a8aeba;
+  --text-tertiary: #8b929e;
+  --text-muted: #787f8a;
+
+  /* --- Borders --- */
+  --border: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  /* --- Accent (attention only, never decoration) --- */
+  --accent: #6ea8fe;
+  --accent-2: #7dd3fc;
+  --accent-dim: rgba(110, 168, 254, 0.14);
+  --accent-line: rgba(110, 168, 254, 0.32);
+
+  /* --- Type --- */
+  /* Latin/numerals resolve to Geist; CJK falls straight through to the
+     platform UI face so it never lands on an arbitrary generic. */
+  --font-sans: "Geist", "Inter", "PingFang SC", "Microsoft YaHei",
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono",
+    Consolas, "PingFang SC", "Microsoft YaHei", monospace;
+
+  --text-hero: clamp(56px, 8vw, 116px);
+  --text-display: clamp(33px, 3.9vw, 52px);
+  --text-title: clamp(27px, 2.9vw, 46px);
+  --text-role: clamp(20px, 2.1vw, 32px);
+  --text-body-lg: clamp(16px, 1.15vw, 18px);
+  --text-body: 15.5px;
+  --text-sm: 14px;
+  --text-label: 11.5px;
+
+  /* --- Layout --- */
+  --container: 1240px;
+  --pad-x: 44px;
+  --measure: 720px;
+  --section-y: clamp(88px, 9vw, 150px);
+
+  /* --- Radius --- */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-pill: 999px;
+
+  /* --- Motion --- */
+  --fast: 160ms;
+  --normal: 280ms;
+  --slow: 560ms;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.7;
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Ambient field. Felt, not seen. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+      circle at 78% -6%,
+      rgba(110, 168, 254, 0.08),
+      transparent 58%
+    ),
+    radial-gradient(circle at 8% 42%, rgba(125, 211, 252, 0.04), transparent 48%);
+}
+
+main,
+.topbar,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+  letter-spacing: -0.021em;
+  line-height: 1.16;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+::selection {
+  background: rgba(110, 168, 254, 0.26);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ---------- Layout primitives ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--pad-x);
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.section-tight {
+  padding-block: clamp(56px, 6vw, 96px);
+}
+
+/* Collapse the seam when two sections stack with no divider between. */
+.section-flush-b {
+  padding-bottom: 0;
+}
+
+.measure {
+  max-width: var(--measure);
+}
+
+/* Hairline rule used instead of boxes to separate movements. */
+.rule {
+  height: 1px;
+  border: 0;
+  margin: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border) 12%,
+    var(--border) 88%,
+    transparent
+  );
+}
+
+/* ---------- Type primitives ---------- */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 18px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+  flex: none;
+}
+
+.eyebrow-plain::before {
+  display: none;
+}
+
+.section-title {
+  font-size: var(--text-display);
+  color: var(--text-primary);
+}
+
+.section-sub {
+  max-width: 640px;
+  margin-top: 16px;
+  color: var(--text-secondary);
+  font-size: var(--text-body-lg);
+  line-height: 1.75;
+}
+
+.section-head {
+  margin-bottom: clamp(40px, 4.5vw, 64px);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.muted {
+  color: var(--text-tertiary);
+}
+
+/* CJK headings need slightly looser tracking than Latin. */
+:lang(zh) h1,
+:lang(zh) h2 {
+  letter-spacing: -0.008em;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--text-primary);
+  --btn-bd: var(--border-strong);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid var(--btn-bd);
+  border-radius: var(--r-sm);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background var(--fast) var(--ease),
+    border-color var(--fast) var(--ease), color var(--fast) var(--ease),
+    transform var(--fast) var(--ease);
+}
+
+.btn:hover {
+  --btn-bd: var(--border-hover);
+  background: var(--surface-hover);
+}
+
+.btn-primary {
+  --btn-bg: var(--text-primary);
+  --btn-fg: #080a0f;
+  --btn-bd: transparent;
+  font-weight: 560;
+}
+
+.btn-primary:hover {
+  background: #fff;
+  --btn-bd: transparent;
+}
+
+.btn-quiet {
+  --btn-bd: transparent;
+  padding-inline: 12px;
+  color: var(--text-secondary);
+}
+
+.btn-quiet:hover {
+  color: var(--text-primary);
+  background: var(--surface-2);
+}
+
+.btn .arw {
+  transition: transform var(--fast) var(--ease);
+}
+
+.btn:hover .arw {
+  transform: translateX(3px);
+}
+
+/* ---------- Inline link ---------- */
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  transition: color var(--fast) var(--ease);
+}
+
+.link:hover {
+  color: var(--text-primary);
+}
+
+.link .arw {
+  transition: transform var(--fast) var(--ease);
+}
+
+.link:hover .arw {
+  transform: translateX(3px);
+}
+
+.link-accent {
+  color: var(--accent);
+}
+
+.link-accent:hover {
+  color: var(--accent-2);
+}
+
+/* ---------- Tag / chip ---------- */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface-1);
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+/* ---------- Skip link / noscript ---------- */
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-size: var(--text-sm);
+  font-weight: 560;
+  transform: translateY(-160%);
+  transition: transform var(--fast) var(--ease);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.noscript-fallback {
+  max-width: 680px;
+  margin: 14vh auto;
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface-1);
+}
+
+.noscript-fallback a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --pad-x: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --pad-x: 20px;
+    --text-body: 15px;
+  }
+}
+
+/* ---------- Hit areas ----------
+   Two tiers, because a viewport width cannot tell touch from mouse:
+   - Everywhere: standalone controls clear 24px (WCAG 2.5.8, AA).
+   - Coarse pointer or narrow viewport: 44px (WCAG 2.5.5, AAA).
+   Links inside prose are exempt by spec and keep the text rhythm. */
+
+.link,
+.footer-col a,
+.contact-row a,
+.files a,
+.refs a,
+.back-link,
+.case-toc a {
+  min-height: 24px;
+}
+
+.footer-col a,
+.back-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (pointer: coarse), (max-width: 860px) {
+  .link,
+  .footer-col a,
+  .contact-row a,
+  .files a,
+  .refs a,
+  .back-link,
+  .case-toc a {
+    min-height: 44px;
+  }
+
+  /* Already inline-flex; just centre within the taller box. */
+  .link {
+    align-items: center;
+  }
+
+  .footer-col ul {
+    gap: 2px;
+  }
+}

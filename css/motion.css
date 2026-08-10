@@ -1,0 +1,141 @@
+/* ============================================================
+   MOTION — reveal, beam, reduced-motion contract
+   One system. Components do not invent their own timing.
+   ============================================================ */
+
+/* ---------- Section reveal ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--slow) var(--ease), transform var(--slow) var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Once revealed, drop the hint so it never affects layout/paint again. */
+.reveal.is-done {
+  will-change: auto;
+  transition: none;
+}
+
+/* No-JS safety: content must never stay invisible. */
+.no-js .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Hero beam along the system map ---------- */
+
+.sysmap-beam {
+  animation: beam-travel 7s linear infinite;
+  offset-rotate: 0deg;
+}
+
+@keyframes beam-travel {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.95;
+  }
+  86% {
+    opacity: 0.95;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+/* Node drift: 2-4px, very slow. Felt, not watched. */
+.sysmap-node {
+  animation: node-drift var(--drift-dur, 13s) var(--ease) infinite;
+  animation-delay: var(--drift-delay, 0s);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes node-drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, -3px);
+  }
+}
+
+/* ---------- Magnetic CTA (primary only) ---------- */
+
+.magnetic {
+  transition: transform var(--normal) var(--ease),
+    background var(--fast) var(--ease), border-color var(--fast) var(--ease),
+    color var(--fast) var(--ease);
+}
+
+/* ---------- Reduced motion ----------
+   Kill decorative movement, keep the page fully usable. */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .sysmap-beam,
+  .sysmap-node,
+  .hero-status .dot::after {
+    animation: none !important;
+  }
+
+  .sysmap-beam {
+    opacity: 0.7;
+  }
+
+  .magnetic {
+    transform: none !important;
+  }
+
+  .scroll-progress {
+    display: none;
+  }
+
+  /* Keep colour/border feedback; remove displacement. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .case-shot:hover .frame {
+    transform: none !important;
+  }
+}
+
+/* Touch devices: no hover-dependent motion, no magnetic. */
+@media (hover: none) {
+  .magnetic {
+    transform: none !important;
+  }
+  .cap-spot::before {
+    display: none;
+  }
+  .sysmap-glow {
+    display: none;
+  }
+}
