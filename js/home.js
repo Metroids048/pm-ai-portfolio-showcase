@@ -23,13 +23,13 @@ window.HomePage = (function () {
             <div class="montage-grid" aria-hidden="true"></div>
             <span class="montage-label montage-label-top">真实项目界面 / 01—03</span>
             <div class="montage-card montage-card-back">
-              ${U.frame('assets/prototypes/p1-quant.webp', 'AI 量化研究与自动交易平台界面', { label: 'Testnet / Research', fit: 'contain', eager: true })}
-            </div>
-            <div class="montage-card montage-card-mid">
               ${U.frame('assets/prototypes/p2-bidding.png', 'AI 标讯管理系统界面', { label: 'AI Bidding', fit: 'contain', eager: true })}
             </div>
-            <div class="montage-card montage-card-front">
+            <div class="montage-card montage-card-mid">
               ${U.frame('assets/prototypes/p7-agent-platform-cover.webp', '企业级智能体服务平台界面', { label: 'Agent Platform', fit: 'contain', eager: true })}
+            </div>
+            <div class="montage-card montage-card-front">
+              ${U.frame('assets/prototypes/video-agent/workbench.png', '电商视频创作 Agent 工作台界面', { label: 'Commerce Video Agent', fit: 'contain', eager: true })}
             </div>
             <div class="montage-signal"><i></i><span>AI 产品交付</span><b>0→1</b></div>
             <span class="montage-label montage-label-bottom">界面证据 · 方案判断 · 交付落地</span>
@@ -65,14 +65,34 @@ window.HomePage = (function () {
 
   function projects() {
     const all = U.orderedProjects();
+    const first = all[0];
     return `
-      <section class="section projects-section" id="work">
+      <section class="section projects-section projects-explorer" id="work">
         <div class="container">
           <div class="section-head section-head-editorial reveal">
             <div><span class="section-kicker">真实项目 · 真实交付</span><h2 class="section-title">代表项目 <span class="signature-slash">/</span></h2><p class="section-head-copy">用真实项目展示 AI 产品从需求拆解、方案设计到交付落地的能力。</p></div>
             <a class="text-link" href="index.html#work">查看全部项目 ${ARROW}</a>
           </div>
-          <div class="project-peer-grid">${all.map((p, i) => projectCard(p, i + 1)).join('')}</div>
+          <div class="project-explorer-grid reveal" data-project-explorer>
+            <div class="project-index-list" role="list" aria-label="项目列表">
+              ${all.map((p, i) => `
+                <a class="project-index-row${i === 0 ? ' is-active' : ''}" data-project-id="${esc(p.id)}" href="project.html?id=${p.id}" role="listitem" aria-current="${i === 0 ? 'true' : 'false'}">
+                  <span class="project-index-num">${String(i + 1).padStart(2, '0')}</span>
+                  <span class="project-index-name">${esc(p.name)}</span>
+                  <span class="project-index-arrow" aria-hidden="true">↗</span>
+                </a>`).join('')}
+            </div>
+            <div class="project-preview" data-project-preview>
+              <div class="project-preview-meta"><span data-project-kind>${esc(U.kindOf(first))}</span><span data-project-count>01 / ${String(all.length).padStart(2, '0')}</span></div>
+              <div class="project-preview-frame" data-project-frame>${U.frame(first.cover, first.name, { label: first.name, fit: 'cover', eager: true })}</div>
+              <div class="project-preview-copy">
+                <h3 data-project-title>${esc(first.name)}</h3>
+                <p data-project-scene>${esc(first.scene)}</p>
+                <p class="project-preview-result" data-project-result>${first.result ? esc(first.result) : ''}</p>
+                <a class="text-link" data-project-link href="project.html?id=${first.id}">查看项目详情 ${ARROW}</a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>`;
   }

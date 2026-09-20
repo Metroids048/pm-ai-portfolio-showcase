@@ -144,6 +144,24 @@ window.CasePage = (function () {
       .join('')}</div>`;
   }
 
+  function videoGallery(list) {
+    const videos = (list || []).filter((item) => item && item.src);
+    if (!videos.length) return '';
+    return `<div class="video-gallery">${videos
+      .map(
+        (item) => `
+          <figure class="case-video">
+            <div class="case-video-bar"><span>Agent output</span><strong>${esc(item.title || '视频成果')}</strong></div>
+            <video controls playsinline preload="metadata"${item.poster ? ` poster="${esc(item.poster)}"` : ''} aria-label="${esc(item.title || '项目视频成果')}">
+              <source src="${esc(item.src)}" type="video/mp4">
+              当前浏览器不支持视频播放。
+            </video>
+            ${item.caption ? `<figcaption>${esc(item.caption)}</figcaption>` : ''}
+          </figure>`,
+      )
+      .join('')}</div>`;
+  }
+
   /* ---------- page ---------- */
 
   function heroSection(p) {
@@ -259,6 +277,7 @@ window.CasePage = (function () {
         '交付材料',
         '截图与附件',
         gallery(p.gallery, p.name) +
+          videoGallery(p.videos) +
           fileCols(p) +
           (p.references && p.references.length
             ? `${subhead('参考资料')}${references(p.references)}`
@@ -284,5 +303,5 @@ window.CasePage = (function () {
     );
   }
 
-  return { render, spec, flow, metrics };
+  return { render, spec, flow, metrics, videoGallery };
 })();

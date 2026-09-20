@@ -167,6 +167,48 @@ window.Interactions = (function () {
     });
   }
 
+  function projectExplorer() {
+    const root = document.querySelector('[data-project-explorer]');
+    if (!root || !window.SHOWCASE_DATA) return;
+    const rows = Array.from(root.querySelectorAll('[data-project-id]'));
+    const preview = root.querySelector('[data-project-preview]');
+    const frame = root.querySelector('[data-project-frame]');
+    const title = root.querySelector('[data-project-title]');
+    const scene = root.querySelector('[data-project-scene]');
+    const result = root.querySelector('[data-project-result]');
+    const kind = root.querySelector('[data-project-kind]');
+    const count = root.querySelector('[data-project-count]');
+    const link = root.querySelector('[data-project-link]');
+    const data = window.SHOWCASE_DATA.projects || [];
+    const esc = (value) => String(value || '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const kindOf = (project) => window.UI.kindOf(project);
+    const activate = (id) => {
+      const project = data.find((item) => item.id === id);
+      const row = rows.find((item) => item.dataset.projectId === id);
+      if (!project || !row) return;
+      rows.forEach((item) => {
+        const active = item === row;
+        item.classList.toggle('is-active', active);
+        item.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+      preview.classList.add('is-switching');
+      window.setTimeout(() => {
+        frame.innerHTML = `<div class="frame"><div class="frame-bar"><i></i><i></i><i></i><b>${esc(project.name)}</b></div><div class="frame-media"><img src="${esc(project.cover)}" alt="${esc(project.name)}" /></div></div>`;
+        title.textContent = project.name || '';
+        scene.textContent = project.scene || '';
+        result.textContent = project.result || '';
+        kind.textContent = kindOf(project);
+        count.textContent = `${String(data.indexOf(project) + 1).padStart(2, '0')} / ${String(data.length).padStart(2, '0')}`;
+        link.href = `project.html?id=${encodeURIComponent(project.id)}`;
+        preview.classList.remove('is-switching');
+      }, reduced.matches ? 0 : 120);
+    };
+    rows.forEach((row) => {
+      row.addEventListener('mouseenter', () => activate(row.dataset.projectId));
+      row.addEventListener('focus', () => activate(row.dataset.projectId));
+    });
+  }
+
   /* ---------- Technical hero depth + custom pointer ---------- */
 
   function technicalStage() {
@@ -247,6 +289,7 @@ window.Interactions = (function () {
     reveal();
     spotlight();
     magnetic();
+    projectExplorer();
     technicalStage();
     contactFeedback();
     toc();

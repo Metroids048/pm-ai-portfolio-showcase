@@ -8,6 +8,7 @@ window.UI = (function () {
 
   /** Fixed display order of the case list. */
   const PROJECT_ORDER = [
+    'commerce-video-agent',
     'agent-platform',
     'ai-bidding-platform',
     'listing-compliance',
@@ -20,6 +21,7 @@ window.UI = (function () {
 
   /** English UI label per project — assistive label, not new content. */
   const PROJECT_KIND = {
+    'commerce-video-agent': '多模态视频 Agent',
     'alpha-mining': '量化研究治理',
     'ai-quant-platform': '量化研究平台',
     'agent-platform': '企业智能体平台',
