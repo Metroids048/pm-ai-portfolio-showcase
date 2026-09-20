@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>/</loc></url>
-  <url><loc>/about.html</loc></url>
-  <url><loc>/methodology.html</loc></url>
-  <url><loc>/project.html?id=agent-platform</loc></url>
-  <url><loc>/project.html?id=ai-bidding-platform</loc></url>
-  <url><loc>/project.html?id=listing-compliance</loc></url>
-  <url><loc>/project.html?id=ai-image-editing</loc></url>
-  <url><loc>/project.html?id=ai-writing-platform</loc></url>
-  <url><loc>/project.html?id=agent-system-design</loc></url>
-  <url><loc>/project.html?id=alpha-mining</loc></url>
-  <url><loc>/project.html?id=ai-quant-platform</loc></url>
+  <url><loc>https://metroids048.github.io/pm-ai-portfolio-showcase/</loc></url>
+  <url><loc>https://metroids048.github.io/pm-ai-portfolio-showcase/about.html</loc></url>
+  <url><loc>https://metroids048.github.io/pm-ai-portfolio-showcase/methodology.html</loc></url>
+  <url><loc>https://metroids048.github.io/pm-ai-portfolio-showcase/project.html?id=commerce-video-agent</loc></url>
+  <url><loc>https://metroids048.github.io/pm-ai-portfolio-showcase/project.html?id=agent-platform</loc></url>
+  <url><loc>https://metroids048.github.io/pm-ai-portfolio-showcase/project.html?id=ai-bidding-platform</loc></url>
+  <url><loc>https://metroids048.github.io/pm-ai-portfolio-showcase/project.html?id=listing-compliance</loc></url>
+  <url><loc>https://metroids048.github.io/pm-ai-portfolio-showcase/project.html?id=ai-image-editing</loc></url>
+  <url><loc>https://metroids048.github.io/pm-ai-portfolio-showcase/project.html?id=ai-writing-platform</loc></url>
+  <url><loc>https://metroids048.github.io/pm-ai-portfolio-showcase/project.html?id=agent-system-design</loc></url>
+  <url><loc>https://metroids048.github.io/pm-ai-portfolio-showcase/project.html?id=alpha-mining</loc></url>
+  <url><loc>https://metroids048.github.io/pm-ai-portfolio-showcase/project.html?id=ai-quant-platform</loc></url>
 </urlset>
