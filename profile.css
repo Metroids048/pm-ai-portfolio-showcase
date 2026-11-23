@@ -1,3 +1,7 @@
+#hero-title:focus {
+  outline: none;
+}
+
 #open-source {
   display: inline-flex;
   align-items: center;
