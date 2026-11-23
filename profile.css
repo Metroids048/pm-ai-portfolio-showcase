@@ -2,6 +2,13 @@
   outline: none;
 }
 
+.hero-description {
+  max-width: 29em;
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.85;
+  text-wrap: pretty;
+}
+
 #open-source {
   display: inline-flex;
   align-items: center;
@@ -27,9 +34,41 @@
   margin-top: 5px;
 }
 
-.experience-details p {
-  max-width: 72ch;
-  font-size: 13px;
+.experience-details {
+  max-width: 56em;
+  margin: 0;
+  padding-inline-start: 1.2em;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.experience-details li + li {
+  margin-top: .45em;
+}
+
+.experience-details li::marker {
+  color: var(--accent);
+}
+
+#projects .work-info {
+  min-width: 0;
+  font-family: system-ui, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+
+#projects .work-info h3 {
+  font-size: clamp(16px, 1.55vw, 20px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: normal;
+  text-wrap: pretty;
+}
+
+#projects .work-info p {
+  font-size: clamp(13px, 1vw, 14px);
+  line-height: 1.65;
+  color: var(--muted);
+  text-wrap: pretty;
 }
 
 .section-anchor {
@@ -72,4 +111,14 @@
   padding: 0;
   color: var(--muted);
   font-size: 12px;
+}
+
+@media (max-width: 680px) {
+  #expertise .skill-tabs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  #expertise .skill-tab > span:nth-child(2) {
+    white-space: normal;
+  }
 }

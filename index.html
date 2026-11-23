@@ -60,7 +60,7 @@
         <div class="eyebrow enter" style="--delay:.18s">PERSONAL SITE <span class="eyebrow-year">/ 2026</span></div>
         <p class="identity enter" style="--delay:.25s">个人资料</p>
         <h1 class="enter" id="hero-title" tabindex="-1" style="--delay:.32s">孙伟棚<span class="name-period">.</span><small>AI 产品经理 / AI Product Manager</small></h1>
-        <p class="hero-description enter" style="--delay:.4s">负责企业大模型与智能体产品设计。<br>做过标讯、写作、数据分析与模型平台。</p>
+        <p class="hero-description enter" style="--delay:.4s">专注企业 AI 产品与智能体应用。<br>擅长梳理业务需求、验证产品方案，并推进上线与持续迭代。</p>
         <div class="hero-actions enter" style="--delay:.48s">
           <a class="button button-primary" href="#education">开始浏览 <svg class="icon" aria-hidden="true"><use href="#icon-down"/></svg></a>
           <a class="button button-quiet" href="./简历.pdf" download="孙伟棚-AI 产品经理简历.pdf">下载简历 <svg class="icon" aria-hidden="true"><use href="#icon-download"/></svg></a>
@@ -105,7 +105,12 @@
             <span class="experience-text"><span class="experience-time mono">2026.05 — 2026.08</span><span class="experience-title">深圳优量科技有限公司 <span>AI 产品经理</span></span></span>
             <span class="details-plus" aria-hidden="true">+</span>
           </summary>
-          <div class="experience-details"><p>负责产品架构和平台治理设计，明确能力模块、角色权限及运营协作规则。梳理客户业务流程，建立问题分派、效果验证和反馈改进机制。</p></div>
+          <ul class="experience-details">
+            <li>负责企业智能体服务平台与业务数据规划系统架构，规划智能体、模型、数据、知识与运营治理能力，推动 AI 能力平台化复用</li>
+            <li>设计智能体创建、编排、审核、发布、监控及运营机制，覆盖从建设、交付到反馈优化的全生命周期，并支撑权限与协作治理。</li>
+            <li>规划用户端任务及业务 Agent 应用，建立用户反馈、问题分派、效果验证与优化回流机制，推动平台与业务应用持续迭代。</li>
+            <li>重构客户原有线下数据协作流程，引入智能问数、AI 辅助建议及结果校验，将数据处理、协作与复核逐步转为智能体驱动。</li>
+          </ul>
         </details>
         <details class="experience-item">
           <summary>
@@ -113,7 +118,12 @@
             <span class="experience-text"><span class="experience-time mono">2024.11 — 2026.03</span><span class="experience-title">科大讯飞股份有限公司 <span>产品经理</span></span></span>
             <span class="details-plus" aria-hidden="true">+</span>
           </summary>
-          <div class="experience-details"><p>负责 B 端需求调研、产品方案、研发协同及验收交付。协同售前、算法和研发确定技术应答、交付边界、验收标准和实施节奏。</p></div>
+          <ul class="experience-details">
+            <li>负责 2 个星火大模型 B 端项目需求调研、产品方案、研发协同及验收交付，推动模型能力融入业务并覆盖需求到上线全过程。</li>
+            <li>参与星火智能体平台产品建设，规划 Agent 创建、配置、编排与能力复用机制，沉淀通用模块支撑多个定制化项目快速交付。</li>
+            <li>负责模型训练平台相关功能，覆盖数据集管理、清洗、训练、评估、部署及推理服务，补齐模型从数据到上线的工程化闭环。</li>
+            <li>推进 3 个项目招投标及 LLM 产品化方案，协同售前、算法和研发明确技术应答、交付边界、验收标准及项目实施节奏。</li>
+          </ul>
         </details>
         <details class="experience-item">
           <summary>
@@ -121,7 +131,12 @@
             <span class="experience-text"><span class="experience-time mono">2023.07 — 2024.10</span><span class="experience-title">广东君润数智科技有限公司 <span>助理 AI 产品经理</span></span></span>
             <span class="details-plus" aria-hidden="true">+</span>
           </summary>
-          <div class="experience-details"><p>负责将业务需求拆成流程、产品原型和 PRD，协同研发推进评审、排期、上线与迭代。建立问题反馈、策略调整及效果评估流程。</p></div>
+          <ul class="experience-details">
+            <li>推动 4 个 AI 项目完成需求拆解、流程设计、原型及 PRD 输出，协同研发推进评审、排期、开发、上线与后续效果迭代。</li>
+            <li>基于 Dify 与 GPT/Gemini API 规划 Agent 应用平台，沉淀 50+ 任务型 Agent 与自动化 Workflow，支撑多业务场景复用。</li>
+            <li>建立 Prompt 优化、知识库、插件接入、问题反馈及效果评估机制，形成从问题发现、策略调整到效果验证的持续优化流程。</li>
+            <li>落地智能标讯、研究报告及智能客服等多个业务场景，形成从需求验证、方案落地、上线交付到运营反馈的 AI 产品迭代闭环。</li>
+          </ul>
         </details>
       </div>
     </section>
@@ -133,64 +148,65 @@
       <div class="work-grid">
         <a class="work-card reveal" href="./projects/ai-bidding-platform.html" aria-labelledby="ai-bidding-platform-title">
           <div class="work-cover"><img src="./assets/prototypes/p2-bidding.png" alt="" width="800" height="450" decoding="async" loading="lazy"></div>
-          <div class="work-info"><div><h3 id="ai-bidding-platform-title">AI 智能标讯管理系统</h3><p>设计标讯采集、分派与 CRM 跟进，交付核心模块 PRD、原型与指标定义。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
+          <div class="work-info"><div><h3 id="ai-bidding-platform-title">AI 智能标讯管理系统</h3><p>把分散的招采公告集中到一个入口，让销售团队从筛选标讯到 CRM 跟进都能查到进度。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
           <div class="work-tags"><span>企业项目</span></div>
         </a>
         <a class="work-card reveal" href="./projects/agent-platform.html" aria-labelledby="agent-platform-title">
           <div class="work-cover"><img src="./assets/prototypes/p7-agent-platform-cover.webp" alt="" width="800" height="450" decoding="async" loading="lazy"></div>
-          <div class="work-info"><div><h3 id="agent-platform-title">企业级智能体服务平台</h3><p>规划企业智能体运营与开发的分工，交付方案、PRD 与约 42 页静态原型。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
+          <div class="work-info"><div><h3 id="agent-platform-title">企业级智能体服务平台</h3><p>为企业搭建统一的智能体服务入口，让运营团队集中管理发布、权限和反馈。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
           <div class="work-tags"><span>企业项目</span></div>
         </a>
         <a class="work-card reveal" href="./projects/ai-writing-platform.html" aria-labelledby="ai-writing-platform-title">
           <div class="work-cover"><img src="./assets/prototypes/p1-writing.png" alt="" width="800" height="450" decoding="async" loading="lazy"></div>
-          <div class="work-info"><div><h3 id="ai-writing-platform-title">AI 智能写作平台</h3><p>设计报告、方案和素材库，完成大纲确认、分段生成与人工审阅的工作台方案。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
+          <div class="work-info"><div><h3 id="ai-writing-platform-title">AI 智能写作平台</h3><p>为报告和方案写作设计工作台，把资料检索、大纲确认、分章审阅和 Word 交付串起来。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
           <div class="work-tags"><span>企业项目</span></div>
         </a>
         <a class="work-card reveal" href="./projects/alpha-mining.html" aria-labelledby="alpha-mining-title">
           <div class="work-cover"><img src="./assets/prototypes/p3.png" alt="" width="800" height="450" decoding="async" loading="lazy"></div>
-          <div class="work-info"><div><h3 id="alpha-mining-title">WorldQuant Alpha 智能研究系统</h3><p>独立完成研究 MVP。一次本地运行生成 10 个候选，1 个通过校验进入待模拟队列。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
+          <div class="work-info"><div><h3 id="alpha-mining-title">WorldQuant Alpha 智能研究系统</h3><p>独立搭建 Alpha 研究原型，把资料检索、公式生成和规则校验接到待模拟队列。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
           <div class="work-tags"><span>个人项目</span></div>
         </a>
         <a class="work-card reveal" href="./projects/commerce-video-agent.html" aria-labelledby="commerce-video-agent-title">
           <div class="work-cover"><img src="./assets/prototypes/video-agent/workbench.png" alt="" width="800" height="450" decoding="async" loading="lazy"></div>
-          <div class="work-info"><div><h3 id="commerce-video-agent-title">电商视频创作 Agent</h3><p>定义素材到可编辑视频工程的流程，跑通渲染、版本保存和对象级修改。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
+          <div class="work-info"><div><h3 id="commerce-video-agent-title">电商视频创作 Agent</h3><p>用商品素材生成可编辑的短视频，支持单独调整镜头、字幕或配音，并保留各版成片。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
           <div class="work-tags"><span>个人项目</span></div>
         </a>
         <a class="work-card reveal" href="./projects/listing-compliance.html" aria-labelledby="listing-compliance-title">
           <div class="work-cover"><img src="./assets/prototypes/p4-listing.png" alt="" width="800" height="450" decoding="async" loading="lazy"></div>
-          <div class="work-info"><div><h3 id="listing-compliance-title">Listing 禁售品检测和敏感词优化</h3><p>设计多 SKU 合规检测、人工复核和导出流程，完成方案与任务工作台界面。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
+          <div class="work-info"><div><h3 id="listing-compliance-title">Listing 禁售品检测和敏感词优化</h3><p>设计批量合规审查工作台，帮助跨境运营定位风险原句、复核建议并导出处理结果。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
           <div class="work-tags"><span>个人项目</span></div>
         </a>
         <a class="work-card reveal" href="./projects/ai-image-editing.html" aria-labelledby="ai-image-editing-title">
           <div class="work-cover"><img src="./assets/prototypes/p3-image.png" alt="" width="800" height="450" decoding="async" loading="lazy"></div>
-          <div class="work-info"><div><h3 id="ai-image-editing-title">AIGC 图片生成和编辑平台</h3><p>完成商品图分割、擦除和配字的 PRD、画布原型与模型实现建议。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
+          <div class="work-info"><div><h3 id="ai-image-editing-title">AIGC 图片生成和编辑平台</h3><p>设计商品图编辑画布，支持选中单件商品、擦除遮挡、补全背景和添加文字。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
           <div class="work-tags"><span>个人项目</span></div>
         </a>
         <a class="work-card reveal" href="./projects/agent-system-design.html" aria-labelledby="agent-system-design-title">
           <div class="work-cover"><img src="./assets/prototypes/p6-mingyue-agent-editor.png" alt="" width="800" height="450" decoding="async" loading="lazy"></div>
-          <div class="work-info"><div><h3 id="agent-system-design-title">Agent 应用开放平台</h3><p>设计 Agent 五层分工、工具接入与记忆规则，交付配置、编排界面和能力清单。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
+          <div class="work-info"><div><h3 id="agent-system-design-title">Agent 应用开放平台</h3><p>设计 Agent 配置和编排工作台，让团队接入工具和知识库，调试任务并复用已有能力。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
           <div class="work-tags"><span>平台项目</span></div>
         </a>
         <a class="work-card reveal" href="./projects/ai-quant-platform.html" aria-labelledby="ai-quant-platform-title">
           <div class="work-cover"><img src="./assets/prototypes/p1-quant.webp" alt="" width="800" height="450" decoding="async" loading="lazy"></div>
-          <div class="work-info"><div><h3 id="ai-quant-platform-title">AI 量化研究与自动交易平台</h3><p>梳理下单、成交与中断状态，打通 Testnet 模拟执行并完成回归验证。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
+          <div class="work-info"><div><h3 id="ai-quant-platform-title">AI 量化研究与自动交易平台</h3><p>设计策略验证、风险检查和订单跟踪流程，并在 Testnet 验证模拟交易及中断恢复。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
           <div class="work-tags"><span>个人项目</span></div>
         </a>
         <a class="work-card reveal" href="./projects/business-data-analysis.html" aria-labelledby="business-data-analysis-title">
           <div class="work-cover"><div class="analysis-cover" aria-hidden="true"><span>任务拆解</span><span>工具调用</span><span>多轮分析</span><span>结果校验</span></div></div>
-          <div class="work-info"><div><h3 id="business-data-analysis-title">AI 业务数据分析系统</h3><p>设计复杂实验数据分析流程，把任务拆解、工具调用、多轮分析和结果校验接到星火工作流。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
+          <div class="work-info"><div><h3 id="business-data-analysis-title">AI 业务数据分析系统</h3><p>用星火工作流分步处理复杂实验数据，把工具调用、脚本执行和结果校验接到一起。</p></div><span class="work-external" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></div>
           <div class="work-tags"><span>企业项目</span></div>
         </a>
       </div>
     </section>
 
     <section class="section page-width expertise-section" id="expertise" aria-labelledby="expertise-title">
-      <div class="section-heading reveal"><div><span class="eyebrow section-eyebrow">04 / TOOLKIT & CRAFT</span><h2 id="expertise-title">技术与工具</h2></div><span class="section-caption">产品 / 智能体 / 工具</span></div>
+      <div class="section-heading reveal"><div><span class="eyebrow section-eyebrow">04 / TOOLKIT & CRAFT</span><h2 id="expertise-title">技术与工具</h2></div><span class="section-caption">产品 / 智能体 / 原型开发</span></div>
       <div class="expertise-layout reveal">
         <div class="skill-tabs" role="tablist" aria-label="技术能力" aria-orientation="vertical">
           <button type="button" role="tab" id="tab-rendering" aria-controls="panel-rendering" aria-selected="true" class="skill-tab selected"><span class="mono">01</span><span>AI 产品设计<small>AI Product Design</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
           <button type="button" role="tab" id="tab-tools" aria-controls="panel-tools" aria-selected="false" tabindex="-1" class="skill-tab"><span class="mono">02</span><span>智能体与工作流<small>Agents & Workflows</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
           <button type="button" role="tab" id="tab-engine" aria-controls="panel-engine" aria-selected="false" tabindex="-1" class="skill-tab"><span class="mono">03</span><span>原型与工具<small>Tools & Languages</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+          <button type="button" role="tab" id="tab-vibe-coding" aria-controls="panel-vibe-coding" aria-selected="false" tabindex="-1" class="skill-tab"><span class="mono">04</span><span>Vibe Coding<small>AI 辅助开发</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
         </div>
         <div class="skill-content">
           <div role="tabpanel" id="panel-rendering" aria-labelledby="tab-rendering" tabindex="0" class="skill-panel">
@@ -200,7 +216,10 @@
             <span class="panel-kicker mono">AGENTS &amp; WORKFLOWS</span><h3>智能体与工作流</h3><p>设计可复用的 Agent 能力，用测试和业务反馈迭代效果。</p><ul class="skill-list"><li>将复杂任务拆解为 Prompt、Skill 与工具调用</li><li>编排 Agent 与 Workflow，定义任务与异常状态</li><li>结合知识库、插件与角色权限设计执行流程</li><li>根据测试指标和用户反馈优化稳定性</li></ul><div class="technology-tags"><span>Agent</span><span>Workflow</span><span>Dify</span><span>RAG</span></div>
           </div>
           <div role="tabpanel" id="panel-engine" aria-labelledby="tab-engine" tabindex="0" class="skill-panel" hidden>
-            <span class="panel-kicker mono">TOOLS &amp; LANGUAGES</span><h3>AI 原型与工具实践</h3><p>把产品想法快速做成可操作的 Demo，验证关键路径。</p><ul class="skill-list"><li>用 Claude Code、Codex 和 Cursor 搭建原型</li><li>使用 ComfyUI 和 Stable Diffusion 验证图像工作流</li><li>使用 Python、PyTorch 和 MySQL 验证技术方案</li><li>结合 Figma 和 Vibe Coding 验证产品交互</li></ul><div class="technology-tags"><span>Claude Code</span><span>Codex</span><span>Python</span><span>MySQL</span></div>
+            <span class="panel-kicker mono">TOOLS &amp; LANGUAGES</span><h3>AI 原型与工具实践</h3><p>把产品想法快速做成可操作的 Demo，验证关键路径。</p><ul class="skill-list"><li>用 Figma 制作交互原型与界面规范</li><li>使用 ComfyUI 和 Stable Diffusion 验证图像工作流</li><li>使用 Python、PyTorch 和 MySQL 验证技术方案</li></ul><div class="technology-tags"><span>Figma</span><span>ComfyUI</span><span>Python</span><span>MySQL</span></div>
+          </div>
+          <div role="tabpanel" id="panel-vibe-coding" aria-labelledby="tab-vibe-coding" tabindex="0" class="skill-panel" hidden>
+            <span class="panel-kicker mono">VIBE CODING</span><h3>从产品方案到可运行 Demo</h3><p>用 AI 编程工具把原型做成可以操作的版本，通过真实任务检查交互和边界。</p><ul class="skill-list"><li>用 Notion 和 Figma 梳理需求、页面状态与核心流程</li><li>用 Codex、Claude Code 和 Cursor 搭建可运行的原型</li><li>运行关键路径和异常场景，根据结果修改实现</li></ul><div class="technology-tags"><span>Codex</span><span>Claude Code</span><span>Cursor</span><span>Figma</span></div>
           </div>
         </div>
       </div>

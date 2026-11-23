@@ -1,11 +1,16 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Listing 禁售品检测和敏感词优化 · 孙伟棚</title><link rel="icon" href="../assets/favicon.svg"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="../projects/case.css"><script defer src="./case.js"></script></head><body class="project-page"><a href="#main" class="skip-link">跳到主要内容</a><header class="site-header"><div class="nav-shell"><a class="brand" href="../index.html"><span class="brand-mark">SWP<span>.</span></span><span class="brand-name">孙伟棚<small>AI PRODUCT MANAGER</small></span></a><div class="nav-actions"><a class="button button-small" href="../index.html#projects">项目目录 <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></div></div></header><main id="main" class="page-width"><article class="wrap case-view catalog-case" data-view="case-listing">
-  <div class="case-top">
-    <div><a class="breadcrumb" href="../index.html#projects">← 返回项目目录</a><h1 tabindex="-1" data-heading>Listing 禁售品检测和敏感词优化</h1><div class="case-lead"><p class="case-status">我的职责</p><p data-case-role>我设计导入、检测、复核与导出的流程，确定提示词和词库策略、风险卡片、原文定位及任务重试规则。</p></div></div>
-    <div class="case-meta"><p>跨境店铺一次导入多个 SKU，要知道风险在哪一项、具体改哪句，以及任务中断后哪些商品还需要处理。</p>
-      <p class="case-status">做到哪一步</p><div data-case-stage><strong class="stage-label">检测方案与工作台界面</strong><p>完成批量检测方案及任务工作台界面，定义禁售阻断、编辑器联动、部分失败恢复和 Excel 导出规则。</p></div>
-    </div>
-  </div>
+  <header class="case-top">
+    <a class="breadcrumb" href="../index.html#projects">← 返回项目目录</a>
+    <h1 tabindex="-1" data-heading>Listing 禁售品检测和敏感词优化</h1>
+    <p class="case-lead">跨境店铺批量处理 Listing 时，需要快速确定哪个 SKU 有风险、哪句话要改，以及哪些结果可以导出。</p>
+    <dl class="case-meta">
+      <dt>我的职责</dt>
+      <dd><p data-case-role>我设计批量导入、合规检测、人工复核和导出流程，并明确风险词库、原文高亮和失败重试的规则。</p></dd>
+      <dt>交付与验证</dt>
+      <dd data-case-stage><p>完成批量检测方案和工作台界面。方案覆盖禁售项拦截、编辑器联动、按 SKU 恢复失败任务及 Excel 导出。</p></dd>
+    </dl>
+  </header>
   <div class="catalog-deck catalog-decision-deck" data-capture>
     <section class="catalog-decisions"><h2>关键决策</h2>
       <div data-case-decision="1" class="decision-row"><div class="decision-copy"><h3>禁售风险拦截，用词问题给建议</h3><p data-judgment>禁售风险拦截后交人工复核。普通敏感词定位到原句，提供尽量少改字的替换建议，由运营人员确认采纳。</p></div></div><div data-case-decision="2" class="decision-row"><div class="decision-copy"><h3>每条修改建议都能定位和撤回</h3><p data-judgment>风险卡片关联并高亮原句。接受、撤回和手动修改时同步编辑内容与任务状态，导出使用最新结果。</p></div></div><div data-case-decision="3" class="decision-row"><div class="decision-copy"><h3>任务可以中断，处理结果记到 SKU</h3><p data-judgment>设计额度检查、后台任务、暂停恢复和重试。少量 SKU 失败时，可以定位失败条目并导出已完成结果。</p></div><div class="decision-figures"><figure class="proof-frame" data-proof>
