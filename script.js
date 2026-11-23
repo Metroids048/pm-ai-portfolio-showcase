@@ -4,6 +4,7 @@
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let renderer = null;
+  let ambientRenderer = null;
   let toastTimer;
 
   function showToast(message) {
@@ -13,6 +14,7 @@
     toast.classList.add('visible');
     toastTimer = setTimeout(() => toast.classList.remove('visible'), 3000);
   }
+
 
   let endEntry = null;
   function startEntry() {
@@ -37,18 +39,17 @@
     let displayed = 0;
     let frame = 0;
     let finishTimer = 0;
-    const deadline = setTimeout(() => finish(), 2400);
     const began = performance.now();
-    const duration = 1150;
-    const assets = $$('.project-cover img').slice(0, 3);
-    assets.forEach(cover => {
+    const duration = 3000;
+    const assets = ['figma.svg', 'python.svg', 'workflow.svg'];
+    assets.forEach(name => {
       const image = new Image();
       let settled = false;
       const settle = () => { if (!settled) { settled = true; ready++; } };
       image.onload = settle;
       image.onerror = settle;
-      image.src = cover.src;
-      setTimeout(settle, 1600);
+      image.src = './assets/' + name;
+      setTimeout(settle, 4500);
     });
     document.fonts?.ready.then(() => { fontsReady = true; });
     function finish(skipped = false) {
@@ -56,7 +57,6 @@
       endEntry = null;
       cancelAnimationFrame(frame);
       clearTimeout(finishTimer);
-      clearTimeout(deadline);
       percentage.textContent = '100';
       progress.setAttribute('aria-valuenow', '100');
       $('span', progress).style.width = '100%';
@@ -70,7 +70,8 @@
         gate.classList.remove('leaving');
         if (hadFocus) $('#hero-title').focus({ preventScroll: true });
         renderer?.redraw();
-      }, reducedMotion.matches ? 20 : 430);
+        ambientRenderer?.redraw();
+      }, reducedMotion.matches ? 20 : 850);
     }
     endEntry = () => finish(true);
     function tick(now) {
@@ -84,7 +85,7 @@
       progress.setAttribute('aria-valuenow', String(number));
       $('span', progress).style.width = displayed + '%';
       status.textContent = number < 35 ? '加载页面' : number < 75 ? '准备内容' : number < 100 ? '即将就绪' : '加载完成';
-      if (number === 100) finishTimer = setTimeout(() => finish(), 110);
+      if (number === 100) finishTimer = setTimeout(() => finish(), 180);
       else frame = requestAnimationFrame(tick);
     }
     progress.setAttribute('aria-valuenow', '0');
@@ -115,7 +116,7 @@
   $$('.navigation a').forEach(link => link.addEventListener('click', closeMenu));
   document.addEventListener('click', event => { if (!event.target.closest('.site-header')) closeMenu(); });
   document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
-  window.matchMedia('(min-width: 901px)').addEventListener('change', closeMenu);
+  window.matchMedia('(min-width: 681px)').addEventListener('change', closeMenu);
 
   const navLinks = $$('.navigation a');
   const pageSections = $$('#main > section[id]').filter(section => section.id !== 'home');
@@ -190,6 +191,7 @@
   function updateModalState() {
     document.body.classList.toggle('modal-open', dialogs.some(dialog => dialog.open));
     renderer?.redraw();
+    ambientRenderer?.redraw();
   }
   function openDialog(dialog) {
     dialogs.forEach(item => { if (item !== dialog && item.open) item.close(); });
@@ -259,6 +261,8 @@
       precision highp float;
       uniform vec2 uResolution;
       uniform vec2 uRotation;
+      uniform vec3 uAccent;
+      uniform float uRoughness;
       uniform vec2 uPointer;
       uniform float uPulse;
       mat3 rx(float a) {
@@ -269,17 +273,10 @@
         float c=cos(a),s=sin(a);
         return mat3(c,0.,-s, 0.,1.,0., s,0.,c);
       }
-      vec3 toLocal(vec3 point) {
-        return rx(uRotation.y) * ry(uRotation.x) * point;
-      }
-      float slab(vec3 point, float level, float angle) {
-        vec3 offset = ry(angle) * (point - vec3(0.0, level, 0.0));
-        vec3 edge = abs(offset) - vec3(.91, .092, .69);
-        return length(max(edge, 0.0)) + min(max(edge.x, max(edge.y, edge.z)), 0.0) - .075;
-      }
       float shape(vec3 p) {
-        vec3 q = toLocal(p);
-        return min(slab(q, -.67, -.14), min(slab(q, 0.0, .10), slab(q, .67, .28)));
+        vec3 q = rx(uRotation.y) * ry(uRotation.x) * p;
+        float a = atan(q.y,q.x);
+        return length(vec2(length(q.xy)-0.97,q.z))-0.29;
       }
       vec3 normalAt(vec3 p) {
         vec2 e=vec2(0.003,0.);
@@ -300,17 +297,39 @@
         vec3 p=ro+rd*t;
         vec3 n=normalAt(p);
         vec3 v=-rd;
-        vec3 light = normalize(vec3(-2.0 + uPointer.x, 3.2 + uPointer.y, 4.0));
-        float diffuse = max(dot(n, light), 0.0);
-        float edge = pow(1.0 - max(dot(n, v), 0.0), 2.0);
-        float shine = pow(max(dot(n, normalize(light + v)), 0.0), 33.0);
-        vec3 local = toLocal(p);
-        vec3 material = local.y > .33 ? vec3(.96,.62,.37)
-          : local.y < -.33 ? vec3(.37,.58,.63) : vec3(.83,.80,.67);
-        float pulse = sin(uPulse * 3.14159);
-        vec3 color = material * (.46 + diffuse * .66);
-        color += vec3(.37,.25,.17) * (edge * .23 + shine * .42 + pulse * .42);
-        gl_FragColor = vec4(color, 1.0);
+        vec3 reflected=reflect(rd,n);
+        vec3 light=normalize(vec3(-2.+uPointer.x*2.5,3.5+uPointer.y*2.,4.));
+        vec3 fill=normalize(vec3(3.,0.5,2.));
+        float nv=max(dot(n,v),0.);
+        float fresnel=pow(1.-nv,3.);
+        float wrap=max(dot(n,light)*0.6+0.4,0.);
+        float filmPhase=dot(reflected,vec3(.55,.8,-.35))*0.65+nv*.35;
+        vec3 film=0.5+0.5*cos(6.28318*(filmPhase+vec3(0.,.23,.48)));
+        vec3 base=mix(uAccent*.65,film,.32);
+        float spec=pow(max(dot(n,normalize(light+v)),0.),mix(170.,8.,uRoughness));
+        float spec2=pow(max(dot(n,normalize(fill+v)),0.),mix(90.,6.,uRoughness));
+        float ao=clamp(0.72+0.25*length(p.xy),0.6,1.);
+        vec3 color=base*(.16+wrap*.7)*ao;
+        color+=vec3(.82,1.,.68)*spec*1.8*(1.-uRoughness*.55);
+        color+=vec3(.61,.55,1.)*spec2*.65;
+        color+=mix(vec3(.32,.43,.62),uAccent,.45)*fresnel*.65;
+        float stripe=pow(max(sin(reflected.y*3.+reflected.x*1.5),0.),20.);
+        color+=vec3(.62,.74,.86)*stripe*(1.-uRoughness)*.42;
+        float softbox=pow(max(1.-abs(reflected.y-.32)*4.,0.),4.);
+        color+=vec3(1.1,1.25,1.02)*softbox*.55;
+        float pulse=sin(uPulse*3.14159);
+        color+=uAccent*pulse*(.15+.4*max(sin(atan(p.y,p.x)*2.-uPulse*12.),0.));
+        color=color/(color+vec3(.6));
+        color=pow(color,vec3(.9));
+        vec3 local=rx(uRotation.y)*ry(uRotation.x)*p;
+        float phi=atan(local.y,local.x);
+        float theta=atan(local.z,length(local.xy)-0.97);
+        float meridian=1.-smoothstep(.018,.047,abs(sin(phi*12.)));
+        float parallel=1.-smoothstep(.018,.047,abs(sin(theta*7.)));
+        float wire=max(meridian,parallel);
+        float grey=dot(color,vec3(.299,.587,.114));
+        vec3 graphite=mix(vec3(.54+grey*.4),vec3(.27,.30,.26),wire*.7);
+        gl_FragColor=vec4(graphite,1.);
       }
     `;
     function compile(source, type) {
@@ -340,7 +359,7 @@
     const position = gl.getAttribLocation(program, 'aPosition');
     gl.enableVertexAttribArray(position);
     gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
-    const uniforms = Object.fromEntries(['uResolution', 'uRotation', 'uPointer', 'uPulse'].map(name => [name, gl.getUniformLocation(program, name)]));
+    const uniforms = Object.fromEntries(['uResolution', 'uRotation', 'uAccent', 'uRoughness', 'uPointer', 'uPulse'].map(name => [name, gl.getUniformLocation(program, name)]));
     let yaw = -0.35;
     let pitch = 0.55;
     let autoRotate = !reducedMotion.matches;
@@ -372,6 +391,8 @@
       resize();
       gl.uniform2f(uniforms.uResolution, canvas.width, canvas.height);
       gl.uniform2f(uniforms.uRotation, yaw + pointer[0] * 0.32 + scrollValue * 0.2, pitch + pointer[1] * 0.22 + Math.sin(scrollValue) * 0.08);
+      gl.uniform3fv(uniforms.uAccent, [0.72, 0.95, 0.48]);
+      gl.uniform1f(uniforms.uRoughness, 0.13);
       gl.uniform2f(uniforms.uPointer, pointer[0], pointer[1]);
       gl.uniform1f(uniforms.uPulse, Math.min(1, Math.max(0, (performance.now() - pulseStarted) / 1400)));
       gl.drawArrays(gl.TRIANGLES, 0, 6);
@@ -402,15 +423,14 @@
     }
     function pulse() { pulseStarted = performance.now(); redraw(); }
     function trackPointer(x, y) {
-      const bounds = viewport.getBoundingClientRect();
-      targetPointer = [(x - bounds.left) / bounds.width * 2 - 1, 1 - (y - bounds.top) / bounds.height * 2];
+      targetPointer = [x / window.innerWidth * 2 - 1, 1 - y / window.innerHeight * 2];
       if (reducedMotion.matches) { pointer = [...targetPointer]; }
       redraw();
     }
-    viewport.addEventListener('pointermove', event => trackPointer(event.clientX,event.clientY), {passive:true});
-    viewport.addEventListener('touchmove', event => { if(event.touches[0]) trackPointer(event.touches[0].clientX,event.touches[0].clientY); }, {passive:true});
+    window.addEventListener('pointermove', event => trackPointer(event.clientX,event.clientY), {passive:true});
+    window.addEventListener('touchmove', event => { if(event.touches[0]) trackPointer(event.touches[0].clientX,event.touches[0].clientY); }, {passive:true});
     window.addEventListener('scroll', () => { targetScroll = window.scrollY * 0.002; if(reducedMotion.matches) scrollValue = targetScroll; redraw(); }, {passive:true});
-    canvas.addEventListener('pointerdown', pulse, {passive:true});
+    window.addEventListener('pointerdown', event => { if (!event.target.closest('a,button,input,summary,dialog,#entry-gate')) pulse(); }, {passive:true});
     canvas.addEventListener('dblclick', resetModel);
     canvas.addEventListener('keydown', event => {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); pulse(); return; }
@@ -455,8 +475,195 @@
     $('.lab').classList.add('renderer-fallback');
     $('#shader-canvas').hidden = true;
     $('#shader-canvas').tabIndex = -1;
+    $('#canvas-hint').textContent = '线框预览';
   }
 
+  function createAmbientBackground() {
+    const canvas = $('#ambient-canvas');
+    const context = canvas.getContext('2d');
+    if (!context) return null;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let target = {x:width * .72,y:height * .42};
+    let pointer = {...target};
+    let scroll = window.scrollY;
+    let displayedScroll = scroll;
+    let lastScroll = scroll;
+    let impulse = 0;
+    let frame = 0;
+    let lastDraw = 0;
+    let lastTimestamp = 0;
+    let time = 0;
+    let lastRipple = 0;
+    let lastTrail = 0;
+    let lastInteraction = 0;
+    const ripples = [];
+    const trail = [];
+    const points = Array.from({length:40},(_,i)=>({x:((i*137+91)%997)/997,y:((i*223+17)%991)/991}));
+    const clamp = (value,min,max) => Math.min(max,Math.max(min,value));
+    const wrap = (value,range) => ((value % range) + range) % range;
+
+    function canAnimate() {
+      return !document.hidden && !document.body.classList.contains('gate-open') && !document.body.classList.contains('modal-open') && !reducedMotion.matches;
+    }
+    function resize() {
+      width = window.innerWidth; height = window.innerHeight;
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.25);
+      canvas.width = Math.round(width*ratio); canvas.height = Math.round(height*ratio);
+      context.setTransform(ratio,0,0,ratio,0,0);
+      redraw();
+    }
+    function draw() {
+      context.clearRect(0,0,width,height);
+      const now = performance.now();
+      const mobile = width < 680;
+      const motion = displayedScroll * .055;
+      const count = mobile ? 14 : 22;
+      while(ripples.length && now-ripples[0].born>1600) ripples.shift();
+      while(trail.length && now-trail[0].born>460) trail.shift();
+      const waves = reducedMotion.matches ? [] : ripples.map(ripple=>({
+        ...ripple, age:clamp((now-ripple.born)/1600,0,1),
+        radius:12+(1-Math.pow(1-clamp((now-ripple.born)/1600,0,1),2))*(mobile?130:180)
+      }));
+      const curvePoint = (line,y) => {
+        const baseX = width*(.12+line/(count-1)*.92);
+        const amplitude = (mobile?24:52)*(1+line/count*.32);
+        let x = baseX + Math.sin((y+motion)/height*4.5+time*.4+line*.15)*amplitude;
+        x += Math.cos(y/height*2.6-time*.21+line*.24)*18 + impulse*4;
+        const proximity = Math.exp(-Math.pow((y-pointer.y)/190,2)-Math.pow((baseX-pointer.x)/(mobile?160:270),2));
+        x += (pointer.x-baseX)*proximity*.24;
+        for(const wave of waves) {
+          const distance = Math.hypot(x-wave.x,y-wave.y);
+          x += (x-wave.x)/Math.max(1,distance)*Math.exp(-Math.pow((distance-wave.radius)/32,2))*12*(1-wave.age);
+        }
+        return {x,y};
+      };
+      function strokeCurve(line,start,end) {
+        context.beginPath();
+        for(let y=start;y<end;y+=18) {
+          const point = curvePoint(line,y);
+          if(y===start) context.moveTo(point.x,y); else context.lineTo(point.x,y);
+        }
+        const endPoint = curvePoint(line,end);
+        context.lineTo(endPoint.x,end);
+        context.stroke();
+      }
+      // Fine contour lines share one flow field. Their density increases toward the hero object.
+      context.lineWidth = .65;
+      for(let line=0;line<count;line++) {
+        const strength = .07+Math.sin(line/count*Math.PI/2)*.09;
+        context.strokeStyle = `rgba(93,112,81,${strength})`;
+        strokeCurve(line,-32,height+32);
+        // Short line segments travel along the same contours; there is no glow or blur.
+        if(line%3===1) {
+          const head = wrap(time*(mobile?37:50)+line*height*.21+motion,height+180)-90;
+          context.strokeStyle = `rgba(79,104,65,${mobile ? .29 : .34})`;
+          context.lineWidth = .95;
+          strokeCurve(line,head,head+(mobile?42:62));
+          const point = curvePoint(line,head+(mobile?42:62));
+          context.fillStyle = 'rgba(71,95,57,.38)';
+          context.fillRect(point.x-1,point.y-1,2,2);
+          context.lineWidth = .65;
+        }
+      }
+
+      // Three horizontal drafting guides drift independently of the contour field.
+      context.setLineDash([1,15]);
+      context.lineDashOffset = -time*9;
+      context.strokeStyle = 'rgba(90,108,79,.065)';
+      context.lineWidth = .7;
+      for(let row=0;row<3;row++) {
+        const y = wrap(height*(.24+row*.29)-motion*.24,height);
+        context.beginPath();
+        context.moveTo(0,y);
+        context.bezierCurveTo(width*.3,y+Math.sin(time*.3+row)*20,width*.7,y-impulse*3,width,y+7);
+        context.stroke();
+      }
+      context.setLineDash([]);
+      context.lineDashOffset = 0;
+
+      points.slice(0,mobile?24:40).forEach((point,i)=>{
+        const x = point.x*width + Math.sin(time*.25+i)*12+(pointer.x-width/2)*.018;
+        const y = wrap(point.y*height-motion*(.3+point.x)+Math.cos(time*.3+i)*8,height);
+        const near = Math.max(0,1-Math.hypot(x-pointer.x,y-pointer.y)/200);
+        context.strokeStyle = `rgba(91,112,78,${.14+near*.19})`;
+        context.lineWidth = .7;
+        context.beginPath();context.moveTo(x-2.5,y);context.lineTo(x+2.5,y);context.moveTo(x,y-2.5);context.lineTo(x,y+2.5);context.stroke();
+      });
+
+      for(const wave of waves) {
+        context.strokeStyle = `rgba(81,106,67,${.23*Math.pow(1-wave.age,1.8)})`;
+        context.lineWidth = .65;
+        context.beginPath();
+        context.ellipse(wave.x,wave.y,wave.radius,wave.radius*.77,-.25,.15,Math.PI*1.7);
+        context.stroke();
+      }
+      if(!reducedMotion.matches) {
+        for(let i=1;i<trail.length;i++) {
+          const age = clamp((now-trail[i].born)/460,0,1);
+          context.strokeStyle = `rgba(81,106,67,${.21*(1-age)})`;
+          context.lineWidth = .65;
+          context.beginPath();context.moveTo(trail[i-1].x,trail[i-1].y);context.lineTo(trail[i].x,trail[i].y);context.stroke();
+        }
+      }
+    }
+    function tick(timestamp) {
+      frame = 0;
+      const elapsed = lastTimestamp ? Math.min((timestamp-lastTimestamp)/1000,.05) : 0;
+      lastTimestamp = timestamp;
+      const easing = 1-Math.exp(-elapsed*9);
+      pointer.x += (target.x-pointer.x)*easing;
+      pointer.y += (target.y-pointer.y)*easing;
+      displayedScroll += (scroll-displayedScroll)*easing;
+      impulse *= Math.exp(-elapsed*3.5);
+      if(canAnimate()) time += elapsed;
+      if(timestamp-lastDraw>32) { draw(); lastDraw=timestamp; }
+      if(canAnimate()) frame=requestAnimationFrame(tick); else lastTimestamp=0;
+    }
+    function redraw() {
+      if(!frame) { draw(); lastTimestamp=0; if(canAnimate()) frame=requestAnimationFrame(tick); }
+    }
+    function addRipple(x,y,force=false) {
+      const now = performance.now();
+      if(!canAnimate() || now-lastRipple<(force?110:160)) return;
+      const previous = ripples[ripples.length-1];
+      if(!force && previous && Math.hypot(x-previous.x,y-previous.y)<42) return;
+      ripples.push({x,y,born:now});
+      if(ripples.length>(width<680?5:8)) ripples.shift();
+      lastRipple = now;
+    }
+    function track(x,y) {
+      target={x,y};
+      const now=performance.now();
+      lastInteraction=now;
+      if(reducedMotion.matches) pointer={...target};
+      else {
+        addRipple(x,y);
+        if(now-lastTrail>20) {trail.push({x,y,born:now});if(trail.length>24)trail.shift();lastTrail=now;}
+      }
+      redraw();
+    }
+    window.addEventListener('pointermove',event=>track(event.clientX,event.clientY),{passive:true});
+    window.addEventListener('touchmove',event=>{const touch=event.touches[0];if(touch)track(touch.clientX,touch.clientY);},{passive:true});
+    window.addEventListener('pointerdown',event=>{if(!event.target.closest('a,button,input,summary,dialog,#entry-gate'))addRipple(event.clientX,event.clientY,true);redraw();},{passive:true});
+    window.addEventListener('scroll',()=>{
+      scroll=window.scrollY;
+      const movement=scroll-lastScroll;
+      impulse=clamp(impulse+movement*.022,-8,8);
+      lastScroll=scroll;
+      if(reducedMotion.matches) displayedScroll=scroll;
+      else if(Math.abs(movement)>5 && performance.now()-lastInteraction>250) addRipple(width*.72,height*.58,true);
+      redraw();
+    },{passive:true});
+    window.addEventListener('resize',resize,{passive:true});
+    document.addEventListener('visibilitychange',redraw);
+    reducedMotion.addEventListener('change',redraw);
+    window.addEventListener('pagehide',()=>{cancelAnimationFrame(frame);frame=0;});
+    window.addEventListener('pageshow',redraw);
+    resize();
+    return {redraw};
+  }
   try { renderer = createRenderer(); } catch { showRendererFallback(); }
+  try { ambientRenderer = createAmbientBackground(); } catch { /* Content remains available without the background canvas. */ }
   startEntry();
 })();
